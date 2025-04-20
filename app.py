@@ -22,28 +22,23 @@ st.set_page_config(page_title="Hotel Booking Prediction", layout="centered")
 st.title("Hotel Booking Cancellation Prediction")
 
 with st.form("booking_form"):
-    no_of_adults = st.slider("Number of Adults", 0, 4, 2)
-    no_of_children = st.slider("Number of Children", 0, 10, 0)
-    no_of_weekend_nights = st.slider("Weekend Nights", 0, 7, 1)
-    no_of_week_nights = st.slider("Week Nights", 0, 17, 2)
-    type_of_meal_plan = st.selectbox("Meal Plan", ["Meal Plan 1", "Meal Plan 2", "Meal Plan 3", "Not Selected"])
-    required_car_parking_space = st.selectbox("Requires Car Parking?", [0, 1])
-    room_type_reserved = st.selectbox("Room Type", [
-        "Room_Type 1", "Room_Type 2", "Room_Type 3",
-        "Room_Type 4", "Room_Type 5", "Room_Type 6", "Room_Type 7"
-    ])
-    lead_time = st.slider("Lead Time (days)", 0, 450, 30)
-    arrival_year = st.selectbox("Arrival Year", [2017, 2018])
-    arrival_month = st.slider("Arrival Month", 1, 12, 6)
-    arrival_date = st.slider("Arrival Date", 1, 31, 15)
-    market_segment_type = st.selectbox("Market Segment", [
-        "Online", "Offline", "Corporate", "Complementary", "Aviation"
-    ])
-    repeated_guest = st.selectbox("Repeated Guest?", [0, 1])
-    no_of_previous_cancellations = st.slider("Previous Cancellations", 0, 20, 0)
-    no_of_previous_bookings_not_canceled = st.slider("Previous Non-Canceled Bookings", 0, 60, 0)
-    avg_price_per_room = st.slider("Avg. Price per Room (€)", 0.0, 550.0, 75.0)
-    no_of_special_requests = st.slider("Special Requests", 0, 5, 0)
+    no_of_adults = st.number_input("Number of Adults", min_value=0, value=2)
+    no_of_children = st.number_input("Number of Children", min_value=0, value=0)
+    no_of_weekend_nights = st.number_input("Weekend Nights", min_value=0, value=1)
+    no_of_week_nights = st.number_input("Week Nights", min_value=0, value=2)
+    type_of_meal_plan = st.text_input("Meal Plan (e.g. Meal Plan 1)")
+    required_car_parking_space = st.number_input("Requires Car Parking? (0/1)", min_value=0, max_value=1, value=0)
+    room_type_reserved = st.text_input("Room Type (e.g. Room_Type 1)")
+    lead_time = st.number_input("Lead Time (days)", min_value=0, value=30)
+    arrival_year = st.number_input("Arrival Year (e.g. 2017)", min_value=2000, value=2017)
+    arrival_month = st.number_input("Arrival Month", min_value=1, max_value=12, value=6)
+    arrival_date = st.number_input("Arrival Date", min_value=1, max_value=31, value=15)
+    market_segment_type = st.text_input("Market Segment (e.g. Online)")
+    repeated_guest = st.number_input("Repeated Guest? (0/1)", min_value=0, max_value=1, value=0)
+    no_of_previous_cancellations = st.number_input("Previous Cancellations", min_value=0, value=0)
+    no_of_previous_bookings_not_canceled = st.number_input("Previous Non-Canceled Bookings", min_value=0, value=0)
+    avg_price_per_room = st.number_input("Avg. Price per Room (€)", min_value=0.0, value=75.0)
+    no_of_special_requests = st.number_input("Special Requests", min_value=0, value=0)
 
     submitted = st.form_submit_button("Predict")
 
