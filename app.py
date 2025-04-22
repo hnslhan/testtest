@@ -15,39 +15,27 @@ with open('scaler.pkl', 'rb') as scaler_file:
     scaler = pickle.load(scaler_file)
 
 def predict_loan_status(features):
-    print("Encoded features: ", features)
-
     try:
-        # Encoding fitur kategorikal
-        encoded_features = [
-            categorical_features['person_gender'][features[1]],  
-            categorical_features['person_education'][features[2]],  
-            categorical_features['person_home_ownership'][features[5]],  
-            categorical_features['loan_intent'][features[7]]  
-        ] + features[0:1] + features[3:5] + features[6:8] + features[9:]
+        # features[0:4] are categorical values already encoded
+        categorical_encoded = features[:4]
+        numerical_features = features[4:]
 
-        # Pisahkan fitur numerik dan kategorikal
-        categorical_encoded = encoded_features[:4]  # fitur kategorikal yang sudah dienkode
-        numerical_features = encoded_features[4:]  # fitur numerik yang perlu discale
-
-        # Skala hanya fitur numerik dengan scaler yang sudah dilatih
+        # Scale numerical features
         numerical_df = pd.DataFrame([numerical_features])
-        scaled_numerical = scaler.transform(numerical_df)  # Menggunakan scaler yang dimuat dari file
+        scaled_numerical = scaler.transform(numerical_df)
 
-        # Gabungkan kembali fitur kategorikal dan numerik yang sudah discale
+        # Combine features
         final_features = categorical_encoded + scaled_numerical[0].tolist()
-
         features_df = pd.DataFrame([final_features])
 
-        print("Encoded Features DataFrame: \n", features_df)
-    
-        # Prediksi status pinjaman
+        # Make prediction
         prediction = model.predict(features_df)
         return prediction[0]
 
-    except KeyError as e:
-        print(f"KeyError: The key {e} - check if all categorical inputs are encoded correctly.")
+    except Exception as e:
+        st.error(f"Prediction failed: {e}")
         return None
+
 
 # Input dari pengguna
 person_age = st.number_input('Age of the Person', min_value=18, max_value=100, step=1)
