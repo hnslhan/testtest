@@ -16,7 +16,7 @@ with open('scaler.pkl', 'rb') as scaler_file:
 
 def predict_loan_status(features):
     try:
-        # features[0:4] are categorical values already encoded
+        # features[0:4] are categorical features already encoded
         categorical_encoded = features[:4]
         numerical_features = features[4:]
 
@@ -24,18 +24,17 @@ def predict_loan_status(features):
         numerical_df = pd.DataFrame([numerical_features])
         scaled_numerical = scaler.transform(numerical_df)
 
-        # Combine features
+        # Combine all features
         final_features = categorical_encoded + scaled_numerical[0].tolist()
         features_df = pd.DataFrame([final_features])
 
-        # Make prediction
+        # Predict
         prediction = model.predict(features_df)
         return prediction[0]
 
     except Exception as e:
         st.error(f"Prediction failed: {e}")
         return None
-
 
 
 # Input dari pengguna
