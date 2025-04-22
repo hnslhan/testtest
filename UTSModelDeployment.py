@@ -40,8 +40,8 @@ class LoanPredictionModel:
         print(f"XGBoost Accuracy: {accuracy}")
 
         # Save both the model and the scaler for future use
-        with open('best_xgb_model.pkl', 'wb') as model_file:
-            pickle.dump(self.model, model_file)
+        self.model.save_model('best_xgb_model.json')  # Use JSON format for version-safe saving
+
         with open('scaler.pkl', 'wb') as scaler_file:
             pickle.dump(self.scaler, scaler_file)
 

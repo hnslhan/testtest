@@ -2,12 +2,13 @@ import streamlit as st
 import pandas as pd
 import pickle
 from sklearn.preprocessing import StandardScaler
+from xgboost import XGBClassifier
 
 st.title('Loan Prediction App')
 
 # Memuat model yang sudah dilatih
-with open('best_xgb_model.pkl', 'rb') as model_file:
-    model = pickle.load(model_file)
+model = XGBClassifier()
+model.load_model('best_xgb_model.json')
 
 # Memuat scaler yang sudah dilatih
 with open('scaler.pkl', 'rb') as scaler_file:
