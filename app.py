@@ -37,6 +37,7 @@ def predict_loan_status(features):
         return None
 
 
+
 # Input dari pengguna
 person_age = st.number_input('Age of the Person', min_value=18, max_value=100, step=1)
 person_gender = st.selectbox('Gender of the Person', ['Male', 'Female'])
