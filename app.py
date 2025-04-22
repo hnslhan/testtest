@@ -89,15 +89,20 @@ categorical_features = {
 }
 
 # Encode fitur input
-encoded_features = [
-    categorical_features['person_gender'][input_features[1]], 
-    categorical_features['person_education'][input_features[2]],  
-    categorical_features['person_home_ownership'][input_features[5]], 
-    categorical_features['loan_intent'][input_features[7]], 
-] + input_features[0:1] + input_features[3:5] + input_features[6:8] + input_features[9:]
+# Features are already encoded before being passed in
+categorical_encoded = features[:4]
+numerical_features = features[4:]
+
+numerical_df = pd.DataFrame([numerical_features])
+scaled_numerical = scaler.transform(numerical_df)
+
+final_features = categorical_encoded + scaled_numerical[0].tolist()
+features_df = pd.DataFrame([final_features])
+
 
 # Prediksi jika tombol ditekan
 if st.button('Predict Loan Status'):
+    st.write("Predicting loan status...")
     prediction = predict_loan_status(encoded_features)  # Pastikan mengirimkan `encoded_features`
     
     if prediction is not None:
